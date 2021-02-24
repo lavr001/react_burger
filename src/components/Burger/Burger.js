@@ -4,11 +4,15 @@ import classes from './Burger.module.scss';
 
 const burger = props => {
   let final_ingredients = [];
-  
+
   for (let key in props.ingredients) {
     for (let i = 0; i < props.ingredients[key]; i++) {
       final_ingredients.push(<BurgerIngredient key={key + i} type={key} />)
     }
+  }
+
+  if (final_ingredients.length === 0) {
+    final_ingredients = <p>Please Add Some Ingredients</p>
   }
 
   return (
