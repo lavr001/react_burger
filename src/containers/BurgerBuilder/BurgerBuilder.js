@@ -43,13 +43,17 @@ class BurgerBuilder extends Component {
   }
 
   order_clicked = () => {
-    this.setState({ purchasing: true });
+    this.setState({purchasing: true});
+  }
+
+  close_modal = () => {
+    this.setState({purchasing: false});
   }
 
   render() {
     return (
       <>
-        <Modal show={this.state.purchasing}>
+        <Modal show={this.state.purchasing} modal_closed={this.close_modal} >
           <OrderSummary ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
