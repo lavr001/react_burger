@@ -1,6 +1,7 @@
 .NavigationItem {
   display: flex;
   align-items: center;
+  width: auto;
   height: 100%;
   margin: 0;
   box-sizing: border-box;
@@ -19,5 +20,25 @@
     background-color: #8F5C2C;
     border-bottom: 4px solid #40A4C8;
     color: #fff;
+  }
+}
+
+@media (max-width: 499px) {
+  .NavigationItem {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    a {
+      width: 100%;
+      padding: 0;
+      color: #8F5C2C;
+    }
+    a:hover,
+    a:active,
+    a.active {
+      background-color: transparent;
+      border-bottom: none;
+      color: #40A4C8;
+    }
   }
 }

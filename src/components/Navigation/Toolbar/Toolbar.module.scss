@@ -11,7 +11,18 @@
   box-sizing: border-box;
   background-color: #703B09;
   z-index: 90;
+  .Logo {
+    height: 80%;
+  }
   nav {
     height: 100%;
+  }
+}
+
+@media (max-width: 499px) {
+  .Toolbar {
+    nav {
+      display: none;
+    }
   }
 }
