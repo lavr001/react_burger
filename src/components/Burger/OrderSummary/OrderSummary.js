@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../../UI/Button/Button';
 
 const order_summary = props => {
+
   let ingredients_summary = [];
   for (let key in props.ingredients) {
     ingredients_summary.push(<li key={key}>
