@@ -17,15 +17,22 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends Component {
 
   state = {
-    ingredients: {
-      salad: 0,
-      bacon: 0,
-      cheese: 0,
-      meat: 0
-    },
+    ingredients: null,
+    salad: 0,
+    bacon: 0,
+    cheese: 0,
+    meat: 0,
     total_price: 4,
     purchasing: false,
     loading: false
+  }
+
+  componentDidMount() {
+    axios.get('https://react-burger-f649b-default-rtdb.firebaseio.com/ingredients.json')
+         .then(res => {
+           this.setState({ingredients: res.data})
+         })
+         .catch(err => console.log(err))
   }
 
   add_ingredient = type => {
@@ -76,28 +83,39 @@ class BurgerBuilder extends Component {
   }
 
   render() {
-    let order_summary = <OrderSummary
-                ingredients={this.state.ingredients}
-                cancelled={this.purchase_cancelled}
-                continued={this.purchase_continued}
-                price={this.state.total_price}
-                order={this.state.purchasing} />
+
+    let burger = <Spinner />;
+    let order_summary = null;
+    if (this.state.ingredients) {
+      burger = (
+        <>
+          <Burger ingredients={this.state.ingredients} />
+          <BuildControls
+            ingredient_added={this.add_ingredient}
+            ingredient_removed={this.remove_ingredient}
+            ingredients={this.state.ingredients}
+            price={this.state.total_price}
+            ordered={this.order_clicked}
+          />
+        </>
+      )
+      order_summary = <OrderSummary
+            ingredients={this.state.ingredients}
+            cancelled={this.purchase_cancelled}
+            continued={this.purchase_continued}
+            price={this.state.total_price}
+            order={this.state.purchasing} />
+    }
     if (this.state.loading) {
       order_summary = <Spinner />
     }
+
     return (
       <>
         <Modal show={this.state.purchasing} modal_closed={this.purchase_cancelled} >
           {order_summary}
         </Modal>
-        <Burger ingredients={this.state.ingredients} />
-        <BuildControls
-          ingredient_added={this.add_ingredient}
-          ingredient_removed={this.remove_ingredient}
-          ingredients={this.state.ingredients}
-          price={this.state.total_price}
-          ordered={this.order_clicked}
-        />
+        {burger}
       </>
     );
   }
